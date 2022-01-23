@@ -7,9 +7,9 @@ function App() {
   const [maxResults, setMaxResults] = useState(10);
   const [analyticData,setAnalyticData] = useState([]);
   const resultsNumbers = [10, 25, 50, 100];
-  
+
   useEffect(() => {
-    
+
     let result = tweets.reduce((result, current) => {
       if (current.sentiment === null || current.sentiment === undefined)
         current.sentiment = 'UNKNOW';
@@ -39,8 +39,8 @@ function App() {
   }
 
   function updateTweet(tweetId,payload){
-    api.put('/api/tweet', payload, {params: { tweet_id: tweetId }}).then((response) => {
-    
+    api.put('/api/tweet', payload, {params: { id: tweetId }}).then((response) => {
+
     }).catch((err) => {
       alert("ops! ocorreu um erro" + err);
       });
@@ -66,58 +66,63 @@ function App() {
   return (
     <div className="App">
       <header>
-            <button className="button-search" onClick={searchTweets}>SEARCH</button>
+            <button className="button-search" onClick={searchTweets}>SEARCH TWEETS</button>
             <div>
-            <strong>Lines</strong>
+            <strong>Max Rows</strong>
               <select onChange={(val) => handleLinesChange(val.target.value)}>
-                {resultsNumbers.map((num) => 
-                <option value={num}>{num}</option>
+                {resultsNumbers.map((num) =>
+                  <option value={num}>{num}</option>
                 )}
               </select>
               </div>
       </header>
       <div className='main-container'>
         <div className="dashboard">
-    
-            <span><img src="/positive.png" alt="Positive" width="16px" height="16px" /></span>
-            <span>{analyticData['POSITIVE'] && <span>{analyticData['POSITIVE'].quantity}</span>}</span>
+            <span><strong>SENTIMENT DASHBOARD</strong></span>
+            <span><img src="/positive.png" alt="Positive" width="32px" height="32px" /></span>
+            <span><strong>{analyticData['POSITIVE'] && <span>{analyticData['POSITIVE'].quantity}</span>}</strong></span>
 
-            <span><img src="/negative.png" alt="Negative" width="16px" height="16px" /></span>
-            <span>{analyticData['NEGATIVE'] && <span>{analyticData['NEGATIVE'].quantity}</span>}</span>
+            <span><img src="/negative.png" alt="Negative" width="32px" height="32px" /></span>
+            <span><strong>{analyticData['NEGATIVE'] && <span>{analyticData['NEGATIVE'].quantity}</span>}</strong></span>
 
-            <span><img src="/NEUTRAL.png" alt="Neutral" width="16px" height="16px" /></span>
-            <span>{analyticData['NEUTRAL'] && <span>{analyticData['NEUTRAL'].quantity}</span>}</span>
-        
+            <span><img src="/neutral.png" alt="Neutral" width="32px" height="32px" /></span>
+            <span><strong>{analyticData['NEUTRAL'] && <span>{analyticData['NEUTRAL'].quantity}</span>}</strong></span>
+
         </div>
-        {tweets.map((tw ) => 
+        {tweets.map((tw ) =>
           <div className="card-main" data-id={tw.id}>
             <div className="card-header">
-            <span className="card-tag">tag: #{tw.tag} - Sentiment</span>
+            <span className="card-tag"><strong>HASHTAG:</strong> #{tw.tag} - Sentiment: </span>
 
             <span className="card-sentiment">
-               
-                {tw.sentiment === "NEGATIVE" && 
+
+                {tw.sentiment === "NEGATIVE" &&
                 <img src="/negative.png" alt="Negative" /> }
-                {tw.sentiment === "POSITIVE" && 
+                {tw.sentiment === "POSITIVE" &&
                 <img src="/positive.png" alt="Positive" /> }
-                {tw.sentiment === "NEUTRAL" && 
+                {tw.sentiment === "NEUTRAL" &&
                 <img src="/neutral.png" alt="Neutral" /> }
             </span>
             </div>
             <hr></hr>
             <div className="card-text">
               <span>{tw.text}</span>
+
             </div>
             <hr></hr>
+            <div>
+              <strong>Date:</strong>
+              <span>{tw.created_at}</span>
+            </div>
             <div className="card-footer">
               <button onClick={() => getSentment(tw.id)}>Sentiment</button>
-            </div>  
-          </div> 
-          
+            </div>
+          </div>
+
           )}
       </div>
       <div>
-        <strong >Tweets:</strong><span>{tweets.length}</span>
+        <strong >Total:</strong><span>{tweets.length}</span>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@
 header
 {
   margin-top: 33px;
-  
+
 }
 .label1{
   color: black;
@@ -22,7 +22,9 @@ header
   height: 37px;
   width: 65%;
   margin: 3px;
-  background-color: #91DDEC;
+  background-color: #EFEFEF;
+  border: solid 1px;
+  border-radius: 5;
 }
 .main-container
 {
@@ -65,7 +67,9 @@ th{
 }
 
 .dashboard{
-  width: 65%;
+  width: 64%;
+  height: 40px;
+  padding: 5px;
   text-align: center;
   background-color: #EFEFEF;
   border: solid 1px;
